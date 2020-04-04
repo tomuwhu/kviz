@@ -52,11 +52,15 @@
                         v-if="task.code"
                         v-model="mycode" 
                         language="js" 
-                        :readonly="task.type!=='code'"
+                        :readonly="task && task.type!=='code'"
                         @change="chc" />
                     <div class="o" v-if="task.code" v-html="i1" />
                 </div>
-                <div v-if="task.type==='number'">
+                <div v-if="task && task.type==='number'">
+                    <span v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'">
+                        <button class="p"  @click="side--">Vissza</button>
+                        <div class="s40" />
+                    </span>
                     <button class="p" @click="passz">Passz</button>
                     <span v-if="task.min || task.max">
                         <div class="s40" />
@@ -66,10 +70,13 @@
                         <div class="s40" />
                     </span>
                     <input v-else type="number" v-model.number="i1" @keyup.enter="check( task.rans )" />
-                    <button :disabled="!i1" @click="check( task.rans )">Megad</button>
+                    <button class="send" :disabled="!i1" @click="check( task.rans )">Megad</button>
                 </div>
-                <div v-if="task.type==='buttons'">
+                <div v-if="task && task.type==='buttons'">
                     <table class="m">
+                        <td v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'" class="o">
+                            <button class="p"  @click="side--">Vissza</button>
+                        </td>
                         <td class="o">
                             <button class="p" @click="passz">passz</button>
                         </td>
@@ -79,8 +86,11 @@
                         </td>
                     </table>
                 </div>
-                <div v-if="task.type==='code'">
+                <div v-if="task && task.type==='code'">
                     <table class="m">
+                        <td v-if="config.tasks.find( v => v.id===side-1).type==='info'" class="o">
+                            <button class="p"  @click="side--">Vissza</button>
+                        </td>
                          <td class="o">
                             <button v-if="t1[0]!=='c1e3'" class="p" @click="passz">passz</button>
                             <button v-else class="send" @click="jo()">tovább</button>
@@ -96,8 +106,11 @@
                         </td>
                     </table>
                 </div>
-                <div v-if="task.type==='multiselect'">
+                <div v-if="task && task.type==='multiselect'">
                     <table class="m">
+                        <td v-if="config.tasks.find( v => v.id===side-1).type==='info'" class="o">
+                            <button class="p"  @click="side--">Vissza</button>
+                        </td>
                         <td class="o">
                             <button class="p" @click="passz">PASSZ</button>
                         </td>
@@ -109,7 +122,11 @@
                         </td>
                     </table>
                 </div>
-                <div v-if="task.type==='order'">
+                <div v-if="task && task.type==='order'">
+                    <span v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'">
+                        <button class="p"  @click="side--">Vissza</button>
+                        <div class="s40" />
+                    </span>
                     <draggable v-model="task.options" animation="150">
                         <button 
                             v-for="e in task.options" 
@@ -118,6 +135,13 @@
                     </draggable>
                     <hr>
                     <button class="send" @click="checkord( task.options, task.goodo )">KÉSZ</button>
+                </div>
+                <div v-if="task && task.type==='info'">
+                    <span v-if="config.tasks.find( v => v.id===side-1).type==='info'">
+                        <button class="p"  @click="side--">Vissza</button>
+                        <div class="s40" />
+                    </span>
+                    <button class="send"  @click="side++">Tovább</button>
                 </div>
             </div>
         </span>
@@ -314,7 +338,11 @@ export default {
         },
         lc() {
             var pp = config.tasks.filter( v => v.id === this.side)[0]
-            if (pp) this.mycode = pp.code
+            if (pp) {
+                this.mycode = pp.code
+                if (pp.type==='number' && typeof pp.min == "number" && typeof pp.max == "number") 
+                    this.i1 = ( pp.min + pp.max ) / 2
+            }
             localStorage.setItem('p',this.p.join('|'))
         },
         xv(i, v) {
@@ -376,7 +404,7 @@ export default {
     }
     div.q2 {
         font-size: 20px;
-        text-align: left;
+        text-align: justify;
     }
     div.small {
         font-size: 15px;

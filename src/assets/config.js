@@ -22,6 +22,24 @@ module.exports = {
             goodo: "UTP"
         },
         {
+            type: "info",
+            question: "Számrendszerek<br>",
+            q2: `A tizenhatos (hexadecimális) számrendszer a 16-os számon alapuló számrendszer, az informatika kulcsfontosságú számrendszere (zsargonban: hexa).<hr>
+                 A tizenhatos számrendszer a 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 számjegyeken kívül az A, B, C, D, E, F betűket (vagy ezeknek kisbetűs megfelelőjét; mindkettő használat megengedett) használja, 
+                 ezek segítségével ábrázolja a számokat.<hr>
+                 A 0–9 számjegyek használata értelemszerű (azaz: a tízes számrendszernek megfelelő), az A számjegy 10-et, a B számjegy 11-et, a C számjegy 12-t, a D számjegy 13-at, 
+                 az E számjegy 14-et és az F számjegy 15–öt jelöl (ez összesen 16 számjegy, tekintettel arra, hogy a nulla az első).<hr>
+                 Az eltérő számrendszer használatára általában a szám után írt alsó indexes H betű utal, például: C9H. `
+        },
+        {
+            type: "info",
+            question: "Átváltás számrednszerek között<br>",
+            q2: `A tizenhatos számrendszerben leírt szám számjegyei tulajdonképpen a tizenhatos szám 0-val kezdődő és számjegyenként eggyel növekvő exponensei a szám
+            legkisebb helyiértékű számjegyeitől haladva a legnagyobb helyiértékűekig (azaz jobbról balra). Például 3F8H a tízes számrendszerben
+            1016 (= 3×162 + 15×161 + 8×160 = 3×256 + 15×16 + 8×1 = 768+ 240 + 8 = 1016).<hr>`,
+            img: "f02.jpg",
+        },
+        {
             type: "number",
             q2: '<br>',
             img: "f02.jpg",
