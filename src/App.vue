@@ -50,19 +50,19 @@
                     </div>
                     <prism-editor
                         v-if="task.code"
-                        v-model="mycode" 
+                        v-model="mycode"  
                         language="js" 
                         :readonly="task && task.type!=='code'"
                         @change="chc" />
                     <div class="o" v-if="task.code" v-html="i1" />
                 </div>
                 <div v-if="task && task.type==='number'">
-                    <span v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'">
+                    <span v-if="ich(task)">
                         <button class="p"  @click="side--">Vissza</button>
                         <div class="s40" />
                     </span>
                     <button class="p" @click="passz">Passz</button>
-                    <span v-if="task.min || task.max">
+                    <span v-if="task && (task.min || task.max)">
                         <div class="s40" />
                         <button @click="deci1(task.min)">-</button>
                         <input :min="task.min" :max="task.max" type="range" v-model.number="i1">
@@ -73,7 +73,7 @@
                     <button class="send" :disabled="!i1" @click="check( task.rans )">Megad</button>
                 </div>
                 <div v-if="task && task.type==='buttons'">
-                        <button v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'" class="p"  @click="side--">Vissza</button>
+                        <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
                         <div class="s20" />
                         <button class="p" @click="passz">passz</button>
                         <div class="s20" />
@@ -84,7 +84,7 @@
                 </div>
                 <div v-if="task && task.type==='code'">
                     <table class="m">
-                        <td v-if="config.tasks.find( v => v.id===side-1).type==='info'" class="o">
+                        <td v-if="ich(task)" class="o">
                             <button class="p"  @click="side--">Vissza</button>
                         </td>
                          <td class="o">
@@ -103,7 +103,7 @@
                     </table>
                 </div>
                 <div v-if="task && task.type==='multiselect'">
-                    <button v-if="config.tasks.find( v => v.id===side-1).type==='info'" class="p"  @click="side--">Vissza</button>
+                    <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
                     <div class="s20" />
                     <button class="p" @click="passz">PASSZ</button>
                     <div class="s20" />
@@ -114,7 +114,7 @@
                     <button :class="t1.length?'send':''" :disabled="!t1.length" @click="checkms( t1, task.goodo )">KÉSZ</button>
                 </div>
                 <div v-if="task && task.type==='order'"><div class="s20" />
-                    <span v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'">
+                    <span v-if="ich(task)">
                         <button class="p"  @click="side--">Vissza</button>
                         <div class="s20" />
                     </span>
@@ -129,7 +129,7 @@
                     <button class="send" @click="checkord( task.options, task.goodo )">KÉSZ</button>
                 </div>
                 <div v-if="task && task.type==='info'">
-                    <span v-if="config.tasks.find( v => v.id===side-1).type==='info'">
+                    <span v-if="ich(task)">
                         <button class="p"  @click="side--,skip--">Vissza</button>
                         <div class="s40" />
                     </span>
@@ -197,13 +197,14 @@ export default {
     },
     mounted() {
         this.name = localStorage.getItem('name')
+        this.skip = localStorage.getItem('skip') || 0
         if (localStorage.getItem('kdate')) this.kdate = localStorage.getItem('kdate')
         if (localStorage.getItem('vdate')) this.vdate = localStorage.getItem('vdate')
         if (this.name) {
             this.side++
             if ( localStorage.getItem('p') ) this.p=localStorage.getItem('p').split('|')
             if (this.p) {
-                if (this.p.length) this.side = this.p.length+1+this.skip
+                if (this.p.length) this.side = this.p.length
                 if (config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1])
                     this.mycode = config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1].code
                 this.opsz = this.p.filter( v => v>0 ).join('').length
@@ -212,8 +213,17 @@ export default {
                 }
             }
         }
+        //this.side += this.skip
     },
     methods: {
+        ich () {
+            var rv
+            if (this.config.tasks.length) {
+                rv = this.config.tasks.find( v => v.id===this.side-1)
+                if (rv) return rv.type==='info'
+                else return false
+            } else return false
+        },
         fd() {
             var kds, vds
             if ( this.kdate )
@@ -336,8 +346,9 @@ export default {
                 this.mycode = pp.code
                 if (pp.type==='number' && typeof pp.min == "number" && typeof pp.max == "number") 
                     this.i1 = ( pp.min + pp.max ) / 2
-            } else console.log(pp.type==='number', typeof pp.min == "number", typeof pp.max == "number")
+            }
             localStorage.setItem('p',this.p.join('|'))
+            localStorage.setItem('skip',this.skip)
         },
         xv(i, v) {
           if (v>0) return `<span class="jo">helyes válasz (${ v } pont)</span>`

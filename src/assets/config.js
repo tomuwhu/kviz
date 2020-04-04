@@ -59,6 +59,7 @@ module.exports = {
         {
             type: "order",
             question: "Tegye növekvő sorrendbe az alábbi mennyiségeket!",
+            q2: "<br><br><br>",
             img: "f03.jpg",
             options: ["1000 kByte", "10 MByte", "10 GByte", "1 TByte", "1/100 PByte"].sort(),
             goodo: ["1000 kByte", "10 MByte", "10 GByte", "1 TByte", "1/100 PByte"]
