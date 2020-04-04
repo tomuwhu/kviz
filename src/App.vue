@@ -213,7 +213,6 @@ export default {
                 }
             }
         }
-        console.log(this.side, Number( this.skip ) );
         this.side += this.skip 
     },
     methods: {
