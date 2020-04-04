@@ -64,27 +64,23 @@
                     <button class="p" @click="passz">Passz</button>
                     <span v-if="task.min || task.max">
                         <div class="s40" />
-                        <button @click="deci1()">-</button>
+                        <button @click="deci1(task.min)">-</button>
                         <input :min="task.min" :max="task.max" type="range" v-model.number="i1">
-                        <button @click="inci1()">+</button>
+                        <button @click="inci1(task.max)">+</button>
                         <div class="s40" />
                     </span>
                     <input v-else type="number" v-model.number="i1" @keyup.enter="check( task.rans )" />
                     <button class="send" :disabled="!i1" @click="check( task.rans )">Megad</button>
                 </div>
                 <div v-if="task && task.type==='buttons'">
-                    <table class="m">
-                        <td v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'" class="o">
-                            <button class="p"  @click="side--">Vissza</button>
-                        </td>
-                        <td class="o">
-                            <button class="p" @click="passz">passz</button>
-                        </td>
-                        <td class="o" v-for="opt in task.options" :key="opt">
-                            <button v-if="task.goodo === opt" @click="jo">{{ opt }}</button>
-                            <button v-else @click="rossz">{{ opt }}</button>
-                        </td>
-                    </table>
+                        <button v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'" class="p"  @click="side--">Vissza</button>
+                        <div class="s20" />
+                        <button class="p" @click="passz">passz</button>
+                        <div class="s20" />
+                        <span v-for="opt in task.options" :key="opt">
+                            <button class="send" v-if="task.goodo === opt" @click="jo">{{ opt }}</button>
+                            <button class="send" v-else @click="rossz">{{ opt }}</button>
+                        </span>
                 </div>
                 <div v-if="task && task.type==='code'">
                     <table class="m">
@@ -107,41 +103,37 @@
                     </table>
                 </div>
                 <div v-if="task && task.type==='multiselect'">
-                    <table class="m">
-                        <td v-if="config.tasks.find( v => v.id===side-1).type==='info'" class="o">
-                            <button class="p"  @click="side--">Vissza</button>
-                        </td>
-                        <td class="o">
-                            <button class="p" @click="passz">PASSZ</button>
-                        </td>
-                        <td class="o" v-for="opt in task.options" :key="opt">
-                            <button :class="getms( opt )" @click="click(opt)">{{ opt }}</button>
-                        </td>
-                        <td class="o">
-                            <button :class="t1.length?'send':''" :disabled="!t1.length" @click="checkms( t1, task.goodo )">KÉSZ</button>
-                        </td>
-                    </table>
+                    <button v-if="config.tasks.find( v => v.id===side-1).type==='info'" class="p"  @click="side--">Vissza</button>
+                    <div class="s20" />
+                    <button class="p" @click="passz">PASSZ</button>
+                    <div class="s20" />
+                    <span v-for="opt in task.options" :key="opt">
+                        <button :class="getms( opt )" @click="click(opt)">{{ opt }}</button>
+                    </span>
+                    <div class="s20" />
+                    <button :class="t1.length?'send':''" :disabled="!t1.length" @click="checkms( t1, task.goodo )">KÉSZ</button>
                 </div>
-                <div v-if="task && task.type==='order'">
+                <div v-if="task && task.type==='order'"><div class="s20" />
                     <span v-if="config.tasks.find( v => v.id===side-1) && config.tasks.find( v => v.id===side-1).type==='info'">
                         <button class="p"  @click="side--">Vissza</button>
-                        <div class="s40" />
+                        <div class="s20" />
                     </span>
-                    <draggable v-model="task.options" animation="150">
+                    <button class="p" @click="passz">PASSZ</button><div class="s20" />
+                    <draggable v-model="task.options" animation="150" class="db">
                         <button 
                             v-for="e in task.options" 
                             :key="e" 
                             v-html="e" />
                     </draggable>
-                    <hr>
+                    <div class="s20" />
                     <button class="send" @click="checkord( task.options, task.goodo )">KÉSZ</button>
                 </div>
                 <div v-if="task && task.type==='info'">
                     <span v-if="config.tasks.find( v => v.id===side-1).type==='info'">
-                        <button class="p"  @click="side--">Vissza</button>
+                        <button class="p"  @click="side--,skip--">Vissza</button>
                         <div class="s40" />
                     </span>
-                    <button class="send"  @click="side++">Tovább</button>
+                    <button class="send"  @click="side++,skip++">Tovább</button>
                 </div>
             </div>
         </span>
@@ -198,7 +190,7 @@ export default {
     data() {
         return {
             side: 0, p: [], i1: null, opsz: 0, name: '', setname: '',
-            config, maxid, debug: '', mycode: 'null',
+            config, maxid, debug: '', mycode: 'null', skip: 0,
             t1: [], jv: [], uv: [], code: '', kdate: '', vdate: '',
             testx: ['cica','kutya','alma','narancs'].map( (v, id) => ({v, id}) )
         }
@@ -211,7 +203,7 @@ export default {
             this.side++
             if ( localStorage.getItem('p') ) this.p=localStorage.getItem('p').split('|')
             if (this.p) {
-                if (this.p.length) this.side = this.p.length+1
+                if (this.p.length) this.side = this.p.length+1+this.skip
                 if (config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1])
                     this.mycode = config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1].code
                 this.opsz = this.p.filter( v => v>0 ).join('').length
@@ -230,11 +222,11 @@ export default {
                 vds = this.vdate.split('T')[1].split('.')[0].split(':').slice(0,2).join(':')
             return `${ kds } | ${ vds }`
         },
-        inci1() {
-            this.i1++
+        inci1(mc) {
+            if (this.i1<mc) this.i1++
         },
-        deci1() {
-            this.i1--
+        deci1(mc) {
+            if (this.i1>mc) this.i1--
         },
         chc() {
             this.i1=' '
@@ -287,6 +279,7 @@ export default {
             this.uv.push(this.i1)
             this.i1=null
           }
+          this.lc()
         },
         checkord( t1, t2 ) {
             var jp = 0
@@ -312,6 +305,7 @@ export default {
               this.uv.push(t2)
               this.rossz()
           }
+          this.lc()
         },
         jo() {
           this.t1=[]
@@ -342,7 +336,7 @@ export default {
                 this.mycode = pp.code
                 if (pp.type==='number' && typeof pp.min == "number" && typeof pp.max == "number") 
                     this.i1 = ( pp.min + pp.max ) / 2
-            }
+            } else console.log(pp.type==='number', typeof pp.min == "number", typeof pp.max == "number")
             localStorage.setItem('p',this.p.join('|'))
         },
         xv(i, v) {
@@ -382,9 +376,16 @@ export default {
 <style>
     @import "../node_modules/katex/dist/katex.min.css";
     @import url('https://fonts.googleapis.com/css?family=Sen&display=swap');
+    div.db {
+         display: inline-block ;
+    }
     div.s40 {
         display: inline-block ;
         width: 40px;
+    }
+    div.s20 {
+        display: inline-block ;
+        width: 20px;
     }
     body {
         background-color: rgb(38, 38, 38);
@@ -463,7 +464,7 @@ export default {
         font-size: 26px;
         text-align: center;
         vertical-align: middle;
-        min-height: 400px;
+        min-height: 600px;
         margin: 10px auto;
         padding: 20px;
         box-shadow: 1px 3px 3px black ;
@@ -473,8 +474,8 @@ export default {
     }
     div.slide {
         font-family: 'Sen', sans-serif;
-        width: 800px;
-        height:600px;
+        width: 1000px;
+        height:800px;
         margin: 30px auto;
         padding: 20px;
         box-shadow: 1px 3px 3px black ;
@@ -483,13 +484,14 @@ export default {
     }
     button {
         font-family: 'Sen', sans-serif;
-        height: 60px;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        height: 50px;
+        padding-left: 6px;
+        padding-right: 6px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        margin: 2px;
         box-shadow: 1px 3px 3px black ;
-        border-radius: 20px;
+        border-radius: 10px;
         font-size: 18px;
         cursor: pointer;
         background-color: #d8ddc8;
