@@ -130,10 +130,10 @@
                 </div>
                 <div v-if="task && task.type==='info'">
                     <span v-if="ich(task)">
-                        <button class="p"  @click="side--,skip--">Vissza</button>
+                        <button class="p"  @click="side--,skip--,lc()">Vissza</button>
                         <div class="s40" />
                     </span>
-                    <button class="send"  @click="side++,skip++">Tovább</button>
+                    <button class="send"  @click="side++,skip++,lc()">Tovább</button>
                 </div>
             </div>
         </span>
@@ -197,14 +197,14 @@ export default {
     },
     mounted() {
         this.name = localStorage.getItem('name')
-        this.skip = localStorage.getItem('skip') || 0
+        this.skip = Number( localStorage.getItem('skip') ) || 0 
         if (localStorage.getItem('kdate')) this.kdate = localStorage.getItem('kdate')
         if (localStorage.getItem('vdate')) this.vdate = localStorage.getItem('vdate')
         if (this.name) {
             this.side++
             if ( localStorage.getItem('p') ) this.p=localStorage.getItem('p').split('|')
             if (this.p) {
-                if (this.p.length) this.side = this.p.length
+                if (this.p.length) this.side = this.p.length + 1
                 if (config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1])
                     this.mycode = config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1].code
                 this.opsz = this.p.filter( v => v>0 ).join('').length
@@ -213,7 +213,8 @@ export default {
                 }
             }
         }
-        //this.side += this.skip
+        console.log(this.side, Number( this.skip ) );
+        this.side += this.skip 
     },
     methods: {
         ich () {
