@@ -54,7 +54,7 @@
                     <hr>
                     </div>
                     <div v-if="task.ecode">
-                    Példaprogram:
+                    <span  class="kcim">Példaprogram:</span>
                     <prism-editor
                         class="ec"
                         v-model="task.ecode"  
@@ -62,15 +62,15 @@
                         :readonly="true" />
                     </div>
                     <div v-if="task.code">
-                    <span v-if="task.type==='code'">Kérem adja meg a megoldás kódját:</span>
-                    <span v-if="task.type!=='code'"><br><br></span>
+                    <span v-if="task.type==='code'" class="kcim">Kérem adja meg a megoldás kódját:</span>
+                    <span v-if="task.code && task.type!=='code'"><br><br></span>
                     <prism-editor
                         v-model="mycode"  
                         language="js" 
                         :readonly="task && task.type!=='code'"
                         @change="chc" />
                     </div>
-                    <span v-if="task.type!=='code'"><br>Kérem adja meg a kód futásának eredményét!</span>
+                    <span v-if="task.code && task.type!=='code'"><br>Kérem adja meg a kód futásának eredményét!</span>
                     <div class="o" v-if="task.code" v-html="i1" />
                 </div>
                 <div v-if="task && task.type==='number'">
@@ -92,7 +92,7 @@
                 <div v-if="task && task.type==='buttons'">
                         <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
                         <div class="s20" />
-                        <button class="p" @click="passz">passz</button>
+                        <button class="p" @click="passz">Passz</button>
                         <div class="s20" />
                         <span v-for="opt in task.options" :key="opt">
                             <button class="send" v-if="task.goodo === opt" @click="jo">{{ opt }}</button>
@@ -100,33 +100,38 @@
                         </span>
                 </div>
                 <div v-if="task && task.type==='code'">
-
                         <span v-if="ich(task)" class="o">
                             <button class="p"  @click="side--">Vissza</button>
+                            <div class="s40" /> 
                         </span>
                          <span>
-                            <button v-if="t1[0]!=='c1e3'" class="p" @click="passz">passz</button>
-                            <button v-else class="send" @click="jo()">tovább</button>
+                            <button v-if="t1[0]!=='c1e3'" class="p" @click="passz">Passz</button>
+                            <button v-else class="send" @click="jo()">Tovább</button>
+                            <div class="s40" /> 
                         </span>
                         <span class="o">
                             <button @click="mycode=task.code">Reset</button>
+                            <div class="s40" /> 
                         </span>
                         <span class="run" v-if="task.ecode">
                             <button @click="run(task.ecode, task.variables, task.tests, task.rans, task.fans)">Péda futtatása</button>
+                            <div class="s40" /> 
                         </span>
                         <span>
                             <button 
                                 @click="run(mycode, task.variables, task.tests, task.rans, task.fans)" 
                                 :class="t1[0]!=='c1e3'?'send':''">Megoldás próbája</button>
+                            <div class="s40" /> 
                         </span>
                         <span>
                             <button :class="t1[0]!=='c1e3'?'':'send'" :disabled="t1[0]!=='c1e3'" @click="jo()">Tovább</button>
+                            <div class="s40" /> 
                         </span>
                 </div>
                 <div v-if="task && task.type==='multiselect'">
                     <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
                     <div class="s20" />
-                    <button class="p" @click="passz">PASSZ</button>
+                    <button class="p" @click="passz">Passz</button>
                     <div class="s20" />
                     <span v-for="opt in task.options" :key="opt">
                         <button :class="getms( opt )" @click="click(opt)">{{ opt }}</button>
@@ -139,7 +144,7 @@
                         <button class="p"  @click="side--">Vissza</button>
                         <div class="s20" />
                     </span>
-                    <button class="p" @click="passz">PASSZ</button><div class="s20" />
+                    <button class="p" @click="passz">Passz</button><div class="s20" />
                     <draggable v-model="task.options" animation="150" class="db">
                         <button 
                             v-for="e in task.options" 
@@ -552,21 +557,8 @@ export default {
         margin-block-start: 0px;
         margin-block-end: 14px;
     }
-    table.m {
-        width: 100%;
-        height:100%;
-    }
     table.x {
         margin: 0 auto;
-    }
-    td.o {
-        padding-top: 40px;
-        text-align: center;
-    }
-    td.mm {
-      vertical-align: top;
-      color: #803231;
-      text-shadow: 1px 1px 3px black;
     }
     span.jo {
         color: #427450;
@@ -578,6 +570,12 @@ export default {
         font-size: 40px;
         color: #803231;
         text-shadow: 1px 1px 3px black;
+        user-select: none;
+    }
+    span.kcim {
+        font-size: 19px;
+        color: #88671b;
+        text-shadow: 1px 1px 3px rgb(126, 126, 126);
         user-select: none;
     }
     li {
