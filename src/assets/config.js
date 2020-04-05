@@ -149,6 +149,7 @@ module.exports = {
             variables: [{ name: 'v', value: '[0, 1, 2, 3, 4 ]'}],
             tests: [{ name: 'v', value: '[1, 2, 3, 1, 5, 0, 1, 2, 1, 2, 0 ]'}],
             code: `v\t.filter( v => v > 2 )\n\t.reduce( ( o,v ) => o += v, 0 )`,
+            ecode: `v\t.filter( v => v > 2 )\n\t.reduce( ( o,v ) => o += v, 0 )`,
             rans: 120, fans: 24
         },
         {
@@ -160,6 +161,7 @@ module.exports = {
             ],
             variables: [{ name: 'v', value: '[1, 4, 3, 14, 5,-3 ]'}],
             tests: [{ name: 'v', value: '[11, 2, 3, 4, 5, 6, 1, 2, 1, 2, 4 ]'}],
+            ecode: `v[2]`,
             code: `v.`,
             rans: 2, fans: 3
         }

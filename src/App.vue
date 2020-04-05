@@ -62,13 +62,15 @@
                         :readonly="true" />
                     </div>
                     <div v-if="task.code">
-                    Kérem adja meg a megoldás kódját:
+                    <span v-if="task.type==='code'">Kérem adja meg a megoldás kódját:</span>
+                    <span v-if="task.type!=='code'"><br><br></span>
                     <prism-editor
                         v-model="mycode"  
                         language="js" 
                         :readonly="task && task.type!=='code'"
                         @change="chc" />
                     </div>
+                    <span v-if="task.type!=='code'"><br>Kérem adja meg a kód futásának eredményét!</span>
                     <div class="o" v-if="task.code" v-html="i1" />
                 </div>
                 <div v-if="task && task.type==='number'">
@@ -98,27 +100,28 @@
                         </span>
                 </div>
                 <div v-if="task && task.type==='code'">
-                    <table class="m">
-                        <td v-if="ich(task)" class="o">
+
+                        <span v-if="ich(task)" class="o">
                             <button class="p"  @click="side--">Vissza</button>
-                        </td>
-                         <td class="o">
+                        </span>
+                         <span>
                             <button v-if="t1[0]!=='c1e3'" class="p" @click="passz">passz</button>
                             <button v-else class="send" @click="jo()">tovább</button>
-                        </td>
-                        <td class="o">
+                        </span>
+                        <span class="o">
                             <button @click="mycode=task.code">Reset</button>
-                        </td>
-                        <td class="run" v-if="task.ecode">
+                        </span>
+                        <span class="run" v-if="task.ecode">
                             <button @click="run(task.ecode, task.variables, task.tests, task.rans, task.fans)">Péda futtatása</button>
-                        </td>
-                        <td class="run">
-                            <button @click="run(mycode, task.variables, task.tests, task.rans, task.fans)">Megoldás próbája</button>
-                        </td>
-                        <td class="o">
+                        </span>
+                        <span>
+                            <button 
+                                @click="run(mycode, task.variables, task.tests, task.rans, task.fans)" 
+                                :class="t1[0]!=='c1e3'?'send':''">Megoldás próbája</button>
+                        </span>
+                        <span>
                             <button :class="t1[0]!=='c1e3'?'':'send'" :disabled="t1[0]!=='c1e3'" @click="jo()">Tovább</button>
-                        </td>
-                    </table>
+                        </span>
                 </div>
                 <div v-if="task && task.type==='multiselect'">
                     <button v-if="ich(task)" class="p"  @click="side--">Vissza</button>
