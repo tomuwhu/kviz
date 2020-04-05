@@ -210,6 +210,7 @@ export default {
             if ( localStorage.getItem('p') ) this.p=localStorage.getItem('p').split('|')
             if (this.p) {
                 if (this.p.length) this.side = this.p.length + 1
+                this.side += this.skip 
                 if (config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1])
                     this.mycode = config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1].code
                 this.opsz = this.p.filter( v => v>0 ).join('').length
@@ -218,7 +219,6 @@ export default {
                 }
             }
         }
-        this.side += this.skip 
     },
     methods: {
         ich () {
@@ -261,12 +261,13 @@ export default {
                 ${ p.map( v => `${ v.name } = ${ v.value }` ).join('\n') }
                 return ${code}` )
                 jomo = f(p)
+                /*
                 if ( jomo.includes('v = v.value return') ) {
                     f = new Function( `() => {${ jomo }}` )
                     jomo = f()
                     console.log( jomo );
-                    
                 }
+                */
                 if (jomo === fo) {
                     this.i1 = jomo + '<div class="o2">( A tesztváltozó és a mintaváltozó különbözik! )</div>'
                     ok = true
@@ -444,7 +445,7 @@ export default {
         text-shadow: 1px 1px 4px white;
     }
     img.btn {
-        width: 180px;
+        width: 110px;
         box-shadow: 1px 3px 3px black ;
         border-radius: 20px;
         cursor: pointer;
