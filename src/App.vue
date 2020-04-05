@@ -17,14 +17,19 @@
                     {{ name }}
                 </div>
                 <div v-else>
-                    <input v-model="setname" class="n" placeholder="Teljes név" @keyup.enter="side++,lc(),lset()">
+                    <br>
+                    Kérem adja meg a nevét!<br>
+                    <input 
+                        v-model="setname" class="n" 
+                        placeholder="Teljes név" @keyup.enter="side++,lc(),lset()">
                 </div>
+                <br>
+                <img class="btn" src="./assets/start.png" 
+                     @click="side++,lc(),lset()" 
+                     v-if="(setname && (setname.length>6)) || (name && (name.length>6))" />
                 <br>
             </div>
             <p>{{ (new Date()).toISOString().split("T")[0] }}</p>
-            <img class="btn" src="./assets/start.png" 
-                @click="side++,lc(),lset()" 
-                v-if="(setname && (setname.length>6)) || (name && (name.length>6))" />
         </div>
 
         <span v-for="task in config.tasks" :key="task.id">
@@ -256,6 +261,12 @@ export default {
                 ${ p.map( v => `${ v.name } = ${ v.value }` ).join('\n') }
                 return ${code}` )
                 jomo = f(p)
+                if ( jomo.includes('v = v.value return') ) {
+                    f = new Function( `() => {${ jomo }}` )
+                    jomo = f()
+                    console.log( jomo );
+                    
+                }
                 if (jomo === fo) {
                     this.i1 = jomo + '<div class="o2">( A tesztváltozó és a mintaváltozó különbözik! )</div>'
                     ok = true
@@ -470,12 +481,13 @@ export default {
     }
     input.n {
         text-align: left;
+        width: 300px;
     }
     div.feladat {
         font-size: 26px;
         text-align: center;
         vertical-align: middle;
-        min-height: 600px;
+        min-height: 500px;
         margin: 10px auto;
         padding: 20px;
         box-shadow: 1px 3px 3px black ;
@@ -486,7 +498,6 @@ export default {
     div.slide {
         font-family: 'Sen', sans-serif;
         width: 1000px;
-        height:800px;
         margin: 30px auto;
         padding: 20px;
         box-shadow: 1px 3px 3px black ;
