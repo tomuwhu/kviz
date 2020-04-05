@@ -53,12 +53,22 @@
                         <span class="katex" v-html="task.variables.map( v => `${ v.name } = ${ v.value }` ).join('; ')" />
                     <hr>
                     </div>
+                    <div v-if="task.ecode">
+                    Példaprogram:
                     <prism-editor
-                        v-if="task.code"
+                        class="ec"
+                        v-model="task.ecode"  
+                        language="js" 
+                        :readonly="true" />
+                    </div>
+                    <div v-if="task.code">
+                    Kérem adja meg a megoldás kódját:
+                    <prism-editor
                         v-model="mycode"  
                         language="js" 
                         :readonly="task && task.type!=='code'"
                         @change="chc" />
+                    </div>
                     <div class="o" v-if="task.code" v-html="i1" />
                 </div>
                 <div v-if="task && task.type==='number'">
@@ -99,8 +109,11 @@
                         <td class="o">
                             <button @click="mycode=task.code">Reset</button>
                         </td>
+                        <td class="run" v-if="task.ecode">
+                            <button @click="run(task.ecode, task.variables, task.tests, task.rans, task.fans)">Péda futtatása</button>
+                        </td>
                         <td class="run">
-                            <button @click="run(mycode, task.variables, task.tests, task.rans, task.fans)">Futtat</button>
+                            <button @click="run(mycode, task.variables, task.tests, task.rans, task.fans)">Megoldás próbája</button>
                         </td>
                         <td class="o">
                             <button :class="t1[0]!=='c1e3'?'':'send'" :disabled="t1[0]!=='c1e3'" @click="jo()">Tovább</button>
@@ -217,6 +230,7 @@ export default {
                 if (this.p[this.side-1]>0) {
                     this.t1[0]='c1e3'
                 }
+                this.lc()
             }
         }
     },
@@ -255,33 +269,25 @@ export default {
             }
         },
         run(code, p, pt, mo , fo) {
-            var ok = false, jomo
+            var ok = false, jomo, torun
+            if ( code.includes('return') )
+                torun = q => `${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n${code}`
+            else 
+                torun = q => `${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n return ${code}`
+
             try {
-                var f = new Function( `
-                ${ p.map( v => `${ v.name } = ${ v.value }` ).join('\n') }
-                return ${code}` )
+                var f = new Function( torun(p) )
                 jomo = f(p)
-                /*
-                if ( jomo.includes('v = v.value return') ) {
-                    f = new Function( `() => {${ jomo }}` )
-                    jomo = f()
-                    console.log( jomo );
-                }
-                */
                 if (jomo === fo) {
                     this.i1 = jomo + '<div class="o2">( A tesztváltozó és a mintaváltozó különbözik! )</div>'
                     ok = true
                 } else this.i1 = jomo
              } catch( err ) {
-                this.i1 = `
-                ${ p.map( v => `${ v.name } = v.value` ).join('\n') }
-                return ${code}`
+                this.i1 = err
             }
             if (ok) 
             try {
-                var g = new Function( `
-                ${ pt.map( v => `${ v.name } = ${ v.value }` ).join('\n') }
-                return ${code}` )
+                var g = new Function( torun(pt) )
                 if (g(pt) === mo) {
                     this.t1[0] = 'c1e3'
                     this.i1 = jomo
@@ -399,6 +405,13 @@ export default {
 <style>
     @import "../node_modules/katex/dist/katex.min.css";
     @import url('https://fonts.googleapis.com/css?family=Sen&display=swap');
+    div.prism-editor-wrapper pre {
+        margin: 6px;
+        padding: 8px;
+    }
+    div.ec pre {
+        background-color: #372710;
+    }
     div.db {
          display: inline-block ;
     }
@@ -414,9 +427,9 @@ export default {
         background-color: rgb(38, 38, 38);
     }
     pre[class*="language-"] {
-        border-radius: 20px;
+        border-radius: 10px;
         box-shadow: 1px 1px 3px black;
-        font-size: 20px;
+        font-size: 16px;
         user-select: none;
     }
     span.jegy {

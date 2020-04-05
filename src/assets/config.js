@@ -133,6 +133,7 @@ module.exports = {
             tex: '\\sum _{i=1}^n\\:x^2_i|x_i>3',
             variables: [{ name: 'v', value: '[1, 2, 3, 4, 5 ]'}],
             tests: [{ name: 'v', value: '[1, 2, 3, 4, 5, 6, 1, 2, 1, 2, 4 ]'}],
+            ecode: `v\t.filter( v => v > 2)\n\t.reduce( ( o,v ) => o += v, 1 )`,
             code: `v\t.filter( v => v > 2)\n\t.reduce( ( o,v ) => o += v, 1 )`,
             rans: 19, fans: 9
         },
