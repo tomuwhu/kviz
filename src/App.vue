@@ -37,7 +37,7 @@
                 <div class="feladat">
                     <span v-html="task.question" />
                     <hr>
-                    <div class="q2" v-html="task.q2" />
+                    <div v-if="task.q2" class="q2" v-html="task.q2" />
                     <img v-if="task.img" class="rajz" :src="'./' + task.img" />
                     <div v-if="task.links" class="small">
                         <span v-for="(link, i) in task.links" :key="i+'link.a'">
@@ -447,7 +447,7 @@ export default {
         color: rgb(4, 100, 111);
     }
     div.q2 {
-        font-size: 20px;
+        font-size: 19px;
         text-align: justify;
         margin: 10px;
         padding: 10px;
