@@ -23,7 +23,6 @@
                         v-model="setname" class="n" 
                         placeholder="Teljes név" @keyup.enter="side++,lc(),lset()">
                 </div>
-                <br>
                 <img class="btn" src="./assets/start.png" 
                      @click="side++,lc(),lset()" 
                      v-if="(setname && (setname.length>6)) || (name && (name.length>6))" />
@@ -553,7 +552,7 @@ export default {
         color: white;
     }
     button.pushed {
-        background-color: #3f683f;
+        background-color: #4f674f;
         color: white;
     }
     ul {
