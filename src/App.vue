@@ -102,7 +102,7 @@
                 <div v-if="task && task.type==='code'">
                         <span v-if="ich(task)" class="o">
                             <button class="p"  @click="side--">Vissza</button>
-                            <div class="s40" /> 
+                            <div class="s20" /> 
                         </span>
                          <span>
                             <button v-if="t1[0]!=='c1e3'" class="p" @click="passz">Passz</button>
@@ -111,11 +111,11 @@
                         </span>
                         <span class="o">
                             <button @click="mycode=task.code">Reset</button>
-                            <div class="s40" /> 
+                            <div class="s20" /> 
                         </span>
                         <span class="run" v-if="task.ecode">
                             <button @click="run(task.ecode, task.variables, task.tests, task.rans, task.fans)">Péda futtatása</button>
-                            <div class="s40" /> 
+                            <div class="s20" /> 
                         </span>
                         <span>
                             <button 
@@ -125,7 +125,6 @@
                         </span>
                         <span>
                             <button :class="t1[0]!=='c1e3'?'':'send'" :disabled="t1[0]!=='c1e3'" @click="jo()">Tovább</button>
-                            <div class="s40" /> 
                         </span>
                 </div>
                 <div v-if="task && task.type==='multiselect'">
