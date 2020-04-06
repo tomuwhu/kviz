@@ -449,6 +449,10 @@ export default {
     div.q2 {
         font-size: 20px;
         text-align: justify;
+        margin: 10px;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 1px 1px 5px #8b9d88;
     }
     div.small {
         font-size: 15px;

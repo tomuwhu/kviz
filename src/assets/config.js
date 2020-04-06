@@ -152,7 +152,7 @@ module.exports = {
             links: [
                 {a: 'sort', href:'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort'}
             ],
-            variables: [{ name: 'v', value: '[1, 4, 3, 14, 5,-3 ]'}],
+            variables: [{ name: 'v', value: '[1, 4, 3, 14, 5, -3 ]'}],
             tests: [{ name: 'v', value: '[11, 2, 3, 4, 5, 6, 1, 2, 1, 2, 4 ]'}],
             ecode: `v[2]`,
             code: `v.`,
