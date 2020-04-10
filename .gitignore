@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+/kviz*
 
 # local env files
 .env.local
@@ -19,3 +19,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Server side
+
+server.php
