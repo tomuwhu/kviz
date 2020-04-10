@@ -1,4 +1,5 @@
 module.exports = {
+    id: '1',
     title: 'Informatika kvíz',
     author: 'Dr. Németh Tamás',
     date: '2020. március 31.',

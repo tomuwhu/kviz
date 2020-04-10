@@ -5,15 +5,23 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
     "core-js": "^3.6.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "katex": "^0.11.1",
+    "nedb": "^1.8.0",
     "primjs": "^0.6.5",
     "prismjs": "^1.19.0",
     "qrcode.vue": "^1.7.0",
     "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
     "vue-core-video-player": "^0.1.4",
     "vue-katex": "^0.4.0",
     "vue-prism-editor": "^0.5.1",
@@ -47,5 +55,10 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "nodemonConfig": {
+    "ignore": [
+      "tryxdb.json"
+    ]
+  }
 }

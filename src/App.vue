@@ -30,7 +30,6 @@
             </div>
             <p>{{ (new Date()).toISOString().split("T")[0] }}</p>
         </div>
-
         <span v-for="task in config.tasks" :key="task.id">
             <div v-if="side===task.id">
                 <div class="feladat">
@@ -177,16 +176,22 @@
                         </ul>
                     </td>
                 </table>
-                <qrcode-vue :value="'pontszám-'+opsz" size="80" level="H" foreground="#63271B" background="transparent" class="q" />
-                <div class="s40" /> 
-                <qrcode-vue :value="name" size="70" level="H" foreground="#13575B" background="transparent" class="q" />
-                <div class="s40" />
-                <qrcode-vue :value="jegy(opsz)" size="70" level="H" foreground="#777700" background="transparent" class="q" />
-                <div class="s40" />
-                <qrcode-vue :value="fd()" size="70" level="H" foreground="#13575B" background="transparent" class="q" />
-                <div class="s40" />
-                <qrcode-vue :value="'csum-'+(name+jegy(opsz)+opsz).split('').map( v => v.charCodeAt(0) ).reduce( (o, v) => o+=v, 0 )"
-                            size="80" level="H" foreground="#63271B" background="transparent" class="q" />
+                <span v-if="dupl">Teljesítés rögzítve</span>
+                <span v-else>Teljesítés rögzítése...</span>
+                <br>
+                <span v-if="dupl"></span>
+                <span v-else>
+                    <qrcode-vue :value="'pontszám-'+opsz" size="80" level="H" foreground="#63271B" background="transparent" class="q" />
+                    <div class="s40" /> 
+                    <qrcode-vue :value="name" size="70" level="H" foreground="#13575B" background="transparent" class="q" />
+                    <div class="s40" />
+                    <qrcode-vue :value="jegy(opsz)" size="70" level="H" foreground="#777700" background="transparent" class="q" />
+                    <div class="s40" />
+                    <qrcode-vue :value="fd()" size="70" level="H" foreground="#13575B" background="transparent" class="q" />
+                    <div class="s40" />
+                    <qrcode-vue :value="'csum-'+(name+jegy(opsz)+opsz).split('').map( v => v.charCodeAt(0) ).reduce( (o, v) => o+=v, 0 )"
+                                size="80" level="H" foreground="#63271B" background="transparent" class="q" />
+                </span>
             </div>
         </div>
         <div class="o" v-if="debug" >{{ debug }}</div>
@@ -213,32 +218,51 @@ export default {
     },
     data() {
         return {
-            side: 0, p: [], i1: null, opsz: 0, name: '', setname: '',
-            config, maxid, debug: '', mycode: 'null', skip: 0,
-            t1: [], jv: [], uv: [], code: '', kdate: '', vdate: '',
+            side: 0, p: [], i1: null, opsz: 0, name: '', setname: '', rogz: null,
+            config, maxid, debug: '', mycode: 'null', skip: 0, kitid: null,
+            t1: [], jv: [], uv: [], code: '', kdate: '', vdate: '', dupl: null,
             testx: ['cica','kutya','alma','narancs'].map( (v, id) => ({v, id}) )
         }
     },
     mounted() {
-        this.name = localStorage.getItem('name')
-        this.skip = Number( localStorage.getItem('skip') ) || 0 
-        if (localStorage.getItem('kdate')) this.kdate = localStorage.getItem('kdate')
-        if (localStorage.getItem('vdate')) this.vdate = localStorage.getItem('vdate')
-        if (this.name) {
-            this.side++
-            if ( localStorage.getItem('p') ) this.p=localStorage.getItem('p').split('|')
-            if (this.p) {
-                if (this.p.length) this.side = this.p.length + 1
-                this.side += this.skip 
-                if (config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1])
-                    this.mycode = config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1].code
-                this.opsz = this.p.filter( v => v>0 ).join('').length
-                if (this.p[this.side-1]>0) {
-                    this.t1[0]='c1e3'
+        if (document.cookie.split(';').some( item => {
+            return item.indexOf('SameSite=None') >= 0
+        })) { 1 }
+        else {
+            document.cookie = "SameSite=None; Secure"
+        }
+        var bid = localStorage.getItem('id')
+        this.kitid = localStorage.getItem('kitid')
+        if (!this.kitid) {
+            this.kitid = Math.trunc( Math.random()*900000000+100000000 )
+            localStorage.setItem( 'kitid',this.kitid )
+        }
+        if ( bid ) {
+            if (bid == this.config.id) {
+                this.name = localStorage.getItem('name')
+                this.skip = Number( localStorage.getItem('skip') ) || 0 
+                if (localStorage.getItem('kdate')) this.kdate = localStorage.getItem('kdate')
+                if (localStorage.getItem('vdate')) this.vdate = localStorage.getItem('vdate')
+                if (this.name) {
+                    this.side++
+                    if ( localStorage.getItem('p') ) this.p=localStorage.getItem('p').split('|')
+                    if (this.p) {
+                        if (this.p.length) this.side = this.p.length + 1
+                        this.side += this.skip 
+                        if (config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1])
+                            this.mycode = config.tasks.sort( ( a, b ) => a.id - b.id )[this.side-1].code
+                        this.opsz = this.p.filter( v => v>0 ).join('').length
+                        if (this.p[this.side-1]>0) {
+                            this.t1[0]='c1e3'
+                        }
+                        this.lc()
+                    }
                 }
-                this.lc()
+            } else {
+                localStorage.clear()
             }
         }
+        localStorage.setItem( 'id',this.config.id )
     },
     methods: {
         ich () {
@@ -383,6 +407,28 @@ export default {
             var rv = 100 * opsz / len
             if ( rv<0 ) rv = 'negatív!'
             else rv = rv.toFixed() + "%"
+            if (this.vdate)
+                this.axios
+                    .post(
+                        'http://inf.u-szeged.hu/~tnemeth/server.php',
+                        { 
+                            p:'insert', 
+                            data: {
+                                tid:    this.config.id,
+                                kitid:  this.kitid,
+                                name:   this.name,
+                                p:      this.p.join(','), 
+                                kdate:  this.kdate,
+                                vdate:  this.vdate,
+                                psz:    this.opsz,
+                                jegy:   this.jegy( this.opsz )
+                            } 
+                        }
+                    )
+                    .then( v => {
+                       this.dupl = v.data.duplicate
+                       console.log(v.data)
+                    } )
             return rv
         },
         click(opt) {
