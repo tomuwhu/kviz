@@ -225,12 +225,6 @@ export default {
         }
     },
     mounted() {
-        if (document.cookie.split(';').some( item => {
-            return item.indexOf('SameSite=None') >= 0
-        })) { 1 }
-        else {
-            document.cookie = "SameSite=None; Secure"
-        }
         var bid = localStorage.getItem('id')
         this.kitid = localStorage.getItem('kitid')
         if (!this.kitid) {
