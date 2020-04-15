@@ -18,7 +18,8 @@ module.exports = {
             q2: 'Olvassa el a megjelölt hivatkozásokat!' ,
             img: "js.png",
             links: [
-                {a: 'JavaScript', href: 'https://hu.wikipedia.org/wiki/JavaScript'},
+                {a: 'JavaScript Wikipedia', href: 'https://hu.wikipedia.org/wiki/JavaScript'},
+                {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/'},
             ]
         },
         {
