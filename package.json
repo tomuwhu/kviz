@@ -23,6 +23,7 @@
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-core-video-player": "^0.1.4",
+    "vue-google-authenticator": "^1.0.3",
     "vue-katex": "^0.4.0",
     "vue-prism-editor": "^0.5.1",
     "vue-simple-markdown": "^1.1.2",

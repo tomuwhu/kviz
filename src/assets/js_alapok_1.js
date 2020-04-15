@@ -5,10 +5,10 @@ module.exports = {
     date: '2020. április 31.',
     pht: [
         {ph: 0, eval:'elégtelen (1)'},
-        {ph: 2, eval:'elégséges (2)'},
-        {ph: 4, eval:'közepes (3)'},
-        {ph: 6, eval:'jó (4)'},
-        {ph: 8, eval:'jeles (5)'}
+        {ph: 3, eval:'elégséges (2)'},
+        {ph: 5, eval:'közepes (3)'  },
+        {ph: 7, eval:'jó (4)'       },
+        {ph: 9, eval:'jeles (5)'    }
     ],
     autoid: true,
     tasks: [
@@ -67,7 +67,7 @@ module.exports = {
         {
             type: "code",
             question: "Kommentelje ki az alábbi programkódból...",
-            q2: "az <code> a++;</code> sort.",
+            q2: "az <code> a++;</code> utasítást tartalmazó sort!",
             links: [
                 {a: 'Comments on MDN', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#Comments'}
             ],
@@ -108,6 +108,15 @@ module.exports = {
             ecode: `var logikai = true;\nvar szám = 4;\nvar szöveg = 'cica';\nvar objektum = {};\nvar tömb = [1, 2, 3];\n`,
             q2: `A változó típusát az értékadás határozza meg.<br>Az alábbi pédaprogram rendre a következő változókat definiálja:
                 <br><li>logikai</li><li>szám</li><li>szöveges</li><li>objektum</li><li>tömb</li>`
+        },
+        {
+            type: "buttons",
+            q2: 'A kifejezések kiértékelése balról jobbra történik.<br>Olvassa el az operátorokról szóló részt, majd tippelje meg mit ír ki a megadott pédaprogram!',
+            question: "Kifejezések<br>",
+            links: [{a: 'Operators', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators'}],
+            ecode: "var ↀ = 3, ↈ=11;\nconsole.log(\n\tↀ**ↀ--*ↀ-++ↈ\n);",
+            options: [22, 0, 11, 42, 72, 112, NaN].sort(),
+            goodo: 42
         },
         {
             type: "info",
@@ -198,7 +207,7 @@ module.exports = {
             question: "JavaScript Tömbök<br>",
             links: [
                 {a: 'MDN Array -> fill', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill'},
-                {a: 'MDN Array -> map', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'}
+                {a: 'MDN Array -> map',  href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'}
             ],
             q2: `A tömb megadásához a <code>[]</code> karakter vagy az <code>Array()</code> konstruktor használható. A tömb is objektumként viselkedik,
             ezért a t1 és t2 definíció ekvivalens.\n
@@ -211,14 +220,15 @@ module.exports = {
             type: "info",
             question: "JavaScript Tömbök<br>",
             links: [
-                {a: 'MDN Array -> fill', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill'},
-                {a: 'MDN Array -> map', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'},
-                {a: 'MDN Array -> sort', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort'},
-                {a: 'MDN Array -> slice', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice'}
+                {a: 'MDN Array -> fill',  href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill'},
+                {a: 'MDN Array -> map',   href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'},
+                {a: 'MDN Array -> sort',  href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort'},
+                {a: 'MDN Array -> slice', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/slice'},
+                {a: 'MDN Math -> random', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random'}
             ],
             q2: `Az alábbi kódrészlet a jövő heti 5-ös lottó nyerőszámait számítja ki. A megértéshez olvassa el az MDN súgót a felhasznált metódusokról,
                  majd próbálgassa ki őket külön-külön is a saját fejlesztői környezetében!`,
-            ecode: "var t1 = Array(90)\n\t\t\t.fill(0)\n\t\t\t.map((v,i)=>i+1)\n\t\t\t.sort( () => Math.random()-0.5 )\n\t\t\t.slice(0,5)\n\t\t\t.sort((a,b)=>a-b);"
+            ecode: "var t1 = Array( 90 )\n\t\t\t.fill( 0 )\n\t\t\t.map( ( v, i ) => i + 1 )\n\t\t\t.sort( () => Math.random() - 0.5 )\n\t\t\t.slice( 0, 5 )\n\t\t\t.sort( ( a, b ) => a - b );"
         },
         {
             type: "code",
@@ -227,7 +237,7 @@ module.exports = {
             links: [
                 {a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split'},
                 {a: 'MDN Array -> length', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/length'},
-                {a: 'MDN Number', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'}
+                {a: 'MDN Number',          href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'}
             ],
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`'}],
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`'}],
@@ -242,7 +252,7 @@ module.exports = {
             links: [
                 {a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split'},
                 {a: 'MDN Array -> length', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort'},
-                {a: 'MDN Number', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'}
+                {a: 'MDN Number',          href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'}
             ],
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`'}],
             tests: [{ name: 's', value: '`1;12;23;5;7;1;2;4;-6;3`'}],
@@ -274,8 +284,8 @@ module.exports = {
             tex: '\\sum _{i=1}^n\\:x_i',
             links: [
                 {a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split'},
-                {a: 'MDN Array -> map', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'},
-                {a: 'MDN Number', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'},
+                {a: 'MDN Array -> map',    href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'},
+                {a: 'MDN Number',          href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'},
                 {a: 'MDN Array -> reduce', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce'}
             ],
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;17;2;3`'}],
@@ -291,10 +301,10 @@ module.exports = {
             q2: "Határozza meg a számok számtani közepét (átlagát)!<br>A megadott példaprogram a számok összegét határozza meg.",
             tex: '\\frac{\\sum _{i=1}^n\\:x_i}{n}',
             links: [
-                {a: 'MDN String -> split', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split'},
-                {a: 'MDN Array -> map', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'},
-                {a: 'MDN Number', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'},
-                {a: 'MDN Array -> reduce', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce'},
+                {a: 'MDN String -> split',   href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split'},
+                {a: 'MDN Array -> map',      href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map'},
+                {a: 'MDN Number',            href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number'},
+                {a: 'MDN Array -> reduce',   href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce'},
                 {a: 'MDN Number -> toFixed', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed'}
             ],
             variables: [{ name: 's', value: '`6;2;3;5;7;1;2;4;6;2;3;-1;0;3`'}],

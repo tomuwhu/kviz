@@ -3,30 +3,25 @@
       <div class="slide">
         <div v-if="side===0">
             <div class="feladat">
-                <div class="cim">- = | SZTE | = -</div>
+                <div class="cim">- = | RMG | = -</div>
                 <br><hr>
                 <div class="cim" v-html="config.title" />
                 <hr>
                 {{ config.author }}
                 <br>
+                <br>
                 <hr>
+                <br>
+                Bejelentkezés
+                <br>
+                <br>
+                <img src="gl.png" class="btn" @click="signIn" />
                 <div v-if="name">
                     <br>
                     Név:
                     <br>
                     {{ name }}
                 </div>
-                <div v-else>
-                    <br>
-                    Kérem adja meg a nevét!<br>
-                    <input 
-                        v-model="setname" class="n" 
-                        placeholder="Teljes név" @keyup.enter="side++,lc(),lset()">
-                </div>
-                <img class="btn" src="./assets/start.png" 
-                     @click="side++,lc(),lset()" 
-                     v-if="(setname && (setname.length>6)) || (name && (name.length>6))" />
-                <br>
             </div>
             <p>{{ (new Date()).toISOString().split("T")[0] }}</p>
         </div>
@@ -204,6 +199,7 @@
 
 <script>
 //import config from './assets/próbateszt.js'
+import Vue from 'vue'
 import config from './assets/js_alapok_1.js'
 import myVideo from 'vue-video'
 import PrismEditor from 'vue-prism-editor'
@@ -219,7 +215,7 @@ export default {
     },
     data() {
         return {
-            side: 0, p: [], i1: null, opsz: 0, name: '', setname: '', rogz: null,
+            side: 0, p: [], i1: null, opsz: 0, name: '',email: '', rogz: null,
             config, maxid, debug: '', mycode: 'null', skip: 0, kitid: null,
             t1: [], jv: [], uv: [], code: '', kdate: '', vdate: '', dupl: null,
             testx: ['cica','kutya','alma','narancs'].map( (v, id) => ({v, id}) )
@@ -261,6 +257,23 @@ export default {
         localStorage.setItem( 'id',this.config.id )
     },
     methods: {
+        signIn() {
+            Vue.googleAuth().directAccess()
+            Vue.googleAuth().signIn( 
+                user => {
+                    //console.log( user.Pt.CU+" "+user.Pt.BW,user.Pt.yu );
+                    this.side++,this.lc()
+                    this.name = user.Pt.CU+" "+user.Pt.BW
+                    this.email= user.Pt.yu
+                    localStorage.setItem('name', this.name)
+                    if ( !localStorage.getItem('kdate') ) {
+                        this.kdate = (new Date()).toISOString()
+                        localStorage.setItem('kdate', this.kdate)
+                    }
+                },
+                reject => console.log( reject )
+            )
+        },
         ich () {
             var rv
             if (this.config.tasks.length) {
@@ -285,7 +298,7 @@ export default {
         },
         chc() {
             this.i1=' '
-        },
+        },/*
         lset() {
             this.name = this.setname
             localStorage.setItem('name', this.name)
@@ -293,7 +306,7 @@ export default {
                 this.kdate = (new Date()).toISOString()
                 localStorage.setItem('kdate', this.kdate)
             }
-        },
+        },*/
         run(code, p, pt, mo , fo) {
             var ok = false, jomo, torun
             if ( code.includes('return') )
@@ -412,6 +425,7 @@ export default {
                                 tid:    this.config.id,
                                 kitid:  this.kitid,
                                 name:   this.name,
+                                email:  this.email,
                                 p:      this.p.join(','), 
                                 kdate:  this.kdate,
                                 vdate:  this.vdate,
