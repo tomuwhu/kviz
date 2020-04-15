@@ -3,6 +3,13 @@ module.exports = {
     title: 'Informatika kvíz',
     author: 'Dr. Németh Tamás',
     date: '2020. március 31.',
+    pht: [
+        {ph: 0, eval:'elégtelen (1)'},
+        {ph: 2, eval:'elégséges (2)'},
+        {ph: 4, eval:'közepes (3)'},
+        {ph: 6, eval:'jó (4)'},
+        {ph: 8, eval:'jeles (5)'}
+    ],
     autoid: true,
     tasks: [
         {

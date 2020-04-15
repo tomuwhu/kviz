@@ -203,7 +203,8 @@
 </template>
 
 <script>
-import config from './assets/config.js'
+//import config from './assets/próbateszt.js'
+import config from './assets/js_alapok_1.js'
 import myVideo from 'vue-video'
 import PrismEditor from 'vue-prism-editor'
 import QrcodeVue from 'qrcode.vue'
@@ -227,8 +228,9 @@ export default {
     mounted() {
         var bid = localStorage.getItem('id')
         this.kitid = localStorage.getItem('kitid')
+        this.config.pht.sort( ( a, b ) => b.ph - a.ph )
         if (!this.kitid) {
-            this.kitid = Math.trunc( Math.random()*900000000+100000000 )
+            this.kitid = document.domain + ':'+ Math.trunc( Math.random()*90000000+10000000 ).toFixed()
             localStorage.setItem( 'kitid',this.kitid )
         }
         if ( bid ) {
@@ -295,14 +297,13 @@ export default {
         run(code, p, pt, mo , fo) {
             var ok = false, jomo, torun
             if ( code.includes('return') )
-                torun = q => `${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n${code}`
+                torun = q => q?`${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n${code}`:code
             else 
-                torun = q => `${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n return ${code}`
-
+                torun = q => q?`${ q.map( v => `${ v.name } = ${ v.value }` ).join('\n') }\n return ${code}`:`return ${code}`
             try {
                 var f = new Function( torun(p) )
                 jomo = f(p)
-                if (jomo === fo) {
+                if (jomo == fo) {
                     this.i1 = jomo + '<div class="o2">( A tesztváltozó és a mintaváltozó különbözik! )</div>'
                     ok = true
                 } else this.i1 = jomo
@@ -312,7 +313,7 @@ export default {
             if (ok) 
             try {
                 var g = new Function( torun(pt) )
-                if (g(pt) === mo) {
+                if (g(pt) == mo) {
                     this.t1[0] = 'c1e3'
                     this.i1 = jomo
                 }
@@ -420,9 +421,12 @@ export default {
                         }
                     )
                     .then( v => {
-                       this.dupl = v.data.duplicate
-                       console.log(v.data)
+                        console.log(v.data)
+                        this.dupl = v.data.duplicate
                     } )
+                    .catch( err => 
+                        console.log(err)
+                    )
             return rv
         },
         click(opt) {
@@ -438,11 +442,7 @@ export default {
                 this.vdate = (new Date()).toISOString()
                 localStorage.setItem('vdate', this.vdate)
             }
-            if (psz>8) return 'jeles (5)'
-            if (psz>6) return 'jó (4)'
-            if (psz>4) return 'közepes (3)'
-            if (psz>2) return 'elégséges (2)'
-            else return 'elégtelen (1)' 
+            return this.config.pht.find( v => v.ph <= psz ).eval
         }
     }
 }
@@ -451,12 +451,14 @@ export default {
 <style>
     @import "../node_modules/katex/dist/katex.min.css";
     @import url('https://fonts.googleapis.com/css?family=Sen&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');
     div.prism-editor-wrapper pre {
         margin: 6px;
         padding: 8px;
     }
     div.ec pre {
         background-color: #372710;
+        cursor:pointer;
     }
     div.db {
          display: inline-block ;
@@ -632,5 +634,12 @@ export default {
         padding-left: 5px;
         padding-right: 5px;
         display: inline-block;
+    }
+    code {
+        font-family: 'Courier Prime', monospace;
+        background-color: #181a1c ;
+        color: rgb(247, 227, 227);
+        border-radius: 3px;
+        padding: 3px;
     }
 </style>
