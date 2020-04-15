@@ -3,7 +3,7 @@
       <div class="slide">
         <div v-if="side===0">
             <div class="feladat">
-                <div class="cim">- = | RMG | = -</div>
+                <div class="cim">- = | SZTE | = -</div>
                 <br><hr>
                 <div class="cim" v-html="config.title" />
                 <hr>
