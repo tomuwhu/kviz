@@ -20,6 +20,7 @@ module.exports = {
             links: [
                 {a: 'JavaScript Wikipedia', href: 'https://hu.wikipedia.org/wiki/JavaScript'},
                 {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/'},
+                {a: 'JavaScript W3Schools', href: 'https://www.w3schools.com/js/exercise_js.asp?filename=exercise_js_variables1'}
             ]
         },
         {
@@ -114,7 +115,10 @@ module.exports = {
             type: "buttons",
             q2: 'A kifejezések kiértékelése balról jobbra történik.<br>Olvassa el az operátorokról szóló részt, majd tippelje meg mit ír ki a megadott pédaprogram!',
             question: "Kifejezések<br>",
-            links: [{a: 'Operators', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators'}],
+            links: [
+                {a: 'Operators', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators'},
+                {a: 'Operators', href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Arithmetic_Operators#Exponentiation'}
+            ],
             ecode: "var ↀ = 3, ↈ=11;\nconsole.log(\n\tↀ**ↀ--*ↀ-++ↈ\n);",
             options: [22, 0, 11, 42, 72, 112, NaN].sort(),
             goodo: 42
@@ -139,7 +143,7 @@ module.exports = {
                 {a: 'Object-oriented programming', href: 'https://en.wikipedia.org/wiki/Object-oriented_programming'},
             ],
             q2: `Az objektum megadásához a <code>{}</code> karakter használható. Az objektum nagyon fontos szerepet tölt be a JavaScript nyelvben és
-                 a programozásnan általában is. Gyakorlatilag minden önállóan azonosítható entitás, tehát bármi ami létezhet, objektumnak tekinthető.\n
+                 a programozásban általában is. Gyakorlatilag minden önállóan azonosítható entitás, tehát bármi ami létezhet, objektumnak tekinthető.\n
                  Egy objektumnak lehetnek tulajsonságai és metódusai, melyekre a JavaScript-ben <code>.</code>-tal hivatkozunk.`,
             ecode: "var o = { \n\tname: 'John Doe',\n\tage: 39,\n\töregszik( év = 1 ) { \n\t\tthis.age += év \n\t}\n};\no.öregszik( 3 ); \t// az o objektum öregszik metódusának meghívása\nconsole.log(\n\to.age \t\t\t// az o objektum age tulajdonságának elérése\n);"
         },
@@ -214,7 +218,7 @@ module.exports = {
             ezért a t1 és t2 definíció ekvivalens.\n
             A t2 definíciójában az Array(10) létrehoz egy 10 elemű tömböt, majd feltölti 0-val. A map metódus ezt a 10 darab nullát (0) tartalmazó
             tömböt módosítja a paraméterben kapott függvény végrehajtásával. Az Array objektum map metódusa egy függvényt vár paraméterként, melynek az első bemeneti változója
-            az aktuális tömb-elem értéke, a második paraméter pedig ennek indexe. Mivel az első tümb-elem indexe 0, ezért az első értéket 0+1=1 értékre állítja be és így tovább.`,
+            az aktuális tömb-elem értéke, a második paraméter pedig ennek indexe. Mivel az első tömb-elem indexe 0, ezért az első értéket 0+1=1 értékre állítja be és így tovább.`,
             ecode: "var t1 = [1 ,2 ,3, 4, 5, 6, 7, 8, 9, 10];\nvar t2 = Array(10).fill(0).map((v,i)=>i+1);"
         },
         {
