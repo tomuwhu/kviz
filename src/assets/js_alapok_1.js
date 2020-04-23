@@ -303,7 +303,7 @@ module.exports = {
         {
             type: "code",
             question: "Az s string számokat tartalmaz, pontosvesszővel elválasztva.",
-            q2: "Határozza meg a számok számtani közepét (átlagát)!<br>A megadott példaprogram a számok összegét határozza meg.",
+            q2: "Határozza meg a számok számtani közepét (átlagát) két tizedesjegy pontosságúra kerekítve!<br>A megadott példaprogram a számok összegét határozza meg.",
             tex: '\\frac{\\sum _{i=1}^n\\:x_i}{n}',
             links: [
                 {a: 'MDN String -> split',   href: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split'},
